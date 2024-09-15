@@ -1,0 +1,26 @@
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+
+  backend:
+    build: ./backend
+    command: bundle exec rails server -b 0.0.0.0 -p 3001
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USER: nti
+      DATABASE_PASSWORD: 123
+      DATABASE_NAME: backend_development
+      RAILS_ENV: development
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: nti
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: backend_development
+    ports:
+      - "5432:5432"
