@@ -1,12 +1,14 @@
 services:
   frontend:
-    build: ./frontend
+    build: ./frontends
     ports:
-      - "3000:3000"
+      - "4200:4200"
     depends_on:
       - backend
     volumes:
-    - ./frontend:/app
+      - ./frontends:/app
+      - /app/node_modules
+    command: npm run dev  
 
   backend:
     build: ./backend
