@@ -3,6 +3,10 @@ services:
     build: ./frontend
     ports:
       - "3000:3000"
+    depends_on:
+      - backend
+    volumes:
+    - ./frontend:/app
 
   backend:
     build: ./backend
@@ -15,6 +19,10 @@ services:
       DATABASE_PASSWORD: 123
       DATABASE_NAME: backend_development
       RAILS_ENV: development
+    volumes:
+      - "./backend:/rails"
+    depends_on:
+      - db
 
   db:
     image: postgres:13
@@ -24,3 +32,23 @@ services:
       POSTGRES_DB: backend_development
     ports:
       - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  test:
+    build:
+      context: ./backend
+    command: bundle exec rspec
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USER: nti
+      DATABASE_PASSWORD: 123
+      DATABASE_NAME: backend_test
+      RAILS_ENV: test
+    volumes:
+      - ./backend:/rails
+    depends_on:
+      - db
+
+volumes:
+  db_data:
