@@ -11,7 +11,7 @@ services:
     command: npm run dev  
 
   backend:
-    build: ./backend
+    build: ./backends
     command: bash -c "rm -f /rails/tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0' -p 3001"
     ports:
       - "3001:3001"
@@ -22,7 +22,7 @@ services:
       DATABASE_NAME: backend_development
       RAILS_ENV: development
     volumes:
-      - "./backend:/rails"
+      - "./backends:/rails"
     depends_on:
       - db
 
@@ -39,7 +39,7 @@ services:
 
   test:
     build:
-      context: ./backend
+      context: ./backends
     command: bundle exec rspec
     environment:
       DATABASE_HOST: db
@@ -48,7 +48,7 @@ services:
       DATABASE_NAME: backend_test
       RAILS_ENV: test
     volumes:
-      - ./backend:/rails
+      - ./backends:/rails
     depends_on:
       - db
 
