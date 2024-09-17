@@ -12,7 +12,7 @@ services:
 
   backend:
     build: ./backend
-    command: bundle exec rails server -b 0.0.0.0 -p 3001
+    command: bash -c "rm -f /rails/tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0' -p 3001"
     ports:
       - "3001:3001"
     environment:
