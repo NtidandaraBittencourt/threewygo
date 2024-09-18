@@ -17,8 +17,8 @@ services:
       - "3001:3001"
     environment:
       DATABASE_HOST: db
-      DATABASE_USER: nti
-      DATABASE_PASSWORD: 123
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: 123456
       DATABASE_NAME: backend_development
       RAILS_ENV: development
     volumes:
@@ -27,10 +27,10 @@ services:
       - db
 
   db:
-    image: postgres:13
+    image: postgres
     environment:
-      POSTGRES_USER: nti
-      POSTGRES_PASSWORD: 123
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
       POSTGRES_DB: backend_development
     ports:
       - "5432:5432"
@@ -43,8 +43,8 @@ services:
     command: bundle exec rspec
     environment:
       DATABASE_HOST: db
-      DATABASE_USER: nti
-      DATABASE_PASSWORD: 123
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: 123456
       DATABASE_NAME: backend_test
       RAILS_ENV: test
     volumes:
