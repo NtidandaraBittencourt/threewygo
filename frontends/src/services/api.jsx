@@ -6,12 +6,10 @@ const api = axios.create({
 
 export const fetchCourses = async (search, page = 1, rowsPerPage = 5) => {
   const response = await api.get('/courses', {
-    params: { 
-      cpf: search,
-      _page: page,
-      _limit: rowsPerPage,
-      _sort:'title',
-      _order: 'asc',
+    params: {
+      search: search,
+      page: page,
+      limit: rowsPerPage
     },
   });
   return response.data;

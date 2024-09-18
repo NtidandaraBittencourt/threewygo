@@ -13,8 +13,8 @@ const Home = () => {
   const toast = useToast();
 
   const [search, setSearch] = useState();
-  const [page, setPage] = useState(5)
-  const [rowsPerPage, setRowsPerPage] = useState('')
+  const [page, setPage] = useState(1)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
 
   const { data, error, isLoading, refetch } = useQuery({
 		queryKey: ['courses', search, page, rowsPerPage],

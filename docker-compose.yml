@@ -1,4 +1,57 @@
 services:
+  backend:
+    build: ./backend
+    command: bash -c "rm -f /rails/tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0' -p 3001"
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: 123456
+      DATABASE_NAME: backend_development
+      RAILS_ENV: development
+    volumes:
+      - "./backend:/rails"
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: backend_development
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  # test:
+  #   build:
+  #     context: ./backend
+  #   command: bundle exec rspec
+  #   environment:
+  #     DATABASE_HOST: db
+  #     DATABASE_USER: postgres
+  #     DATABASE_PASSWORD: 123456
+  #     DATABASE_NAME: backend_test
+  #     RAILS_ENV: test
+  #   volumes:
+  #     - ./backend:/rails
+  #   depends_on:
+  #     - db
+
+  # web:
+  #   build:
+  #     context: ./backend
+  #   command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
+  #   volumes:
+  #     - ./backend:/rails
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - db
+
   frontend:
     build: ./frontends
     ports:
@@ -10,47 +63,6 @@ services:
       - /app/node_modules
     command: npm run dev  
 
-  backend:
-    build: ./backends
-    command: bash -c "rm -f /rails/tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0' -p 3001"
-    ports:
-      - "3001:3001"
-    environment:
-      DATABASE_HOST: db
-      DATABASE_USER: nti
-      DATABASE_PASSWORD: 123
-      DATABASE_NAME: backend_development
-      RAILS_ENV: development
-    volumes:
-      - "./backends:/rails"
-    depends_on:
-      - db
-
-  db:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: nti
-      POSTGRES_PASSWORD: 123
-      POSTGRES_DB: backend_development
-    ports:
-      - "5432:5432"
-    volumes:
-      - db_data:/var/lib/postgresql/data
-
-  test:
-    build:
-      context: ./backends
-    command: bundle exec rspec
-    environment:
-      DATABASE_HOST: db
-      DATABASE_USER: nti
-      DATABASE_PASSWORD: 123
-      DATABASE_NAME: backend_test
-      RAILS_ENV: test
-    volumes:
-      - ./backends:/rails
-    depends_on:
-      - db
 
 volumes:
   db_data:

@@ -20,7 +20,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ initialValues, onSubmit }) => {
         <form onSubmit={handleSubmit}>
           <VStack spacing={4} align="flex-start">
             <FormControl isInvalid={!!errors.title && touched.title}>
-              <FormLabel htmlFor="name">Titulo do curso</FormLabel>
+              <FormLabel htmlFor="title">Titulo do curso</FormLabel>
               <Field
                 as={Input}
                 id="title"
@@ -65,7 +65,6 @@ const CourseForm: React.FC<CourseFormProps> = ({ initialValues, onSubmit }) => {
               {({ push, remove, form: { values } }) => (
                 <>
                   <VideoForm
-                    name=''
                     videos={values.videos}
                     push={push}
                     remove={remove}
