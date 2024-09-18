@@ -25,3 +25,4 @@ Things you may want to cover:
 
 GET /courses?page=1&limit=10
 GET /courses/search?date_start=2024-01-01&date_end=2024-12-31
+
