@@ -1,17 +1,17 @@
 services:
   frontend:
-    build: ./frontends
+    build: ./frontend
     ports:
       - "4200:4200"
     depends_on:
       - backend
     volumes:
-      - ./frontends:/app
+      - ./frontend:/app
       - /app/node_modules
     command: npm run dev  
 
   backend:
-    build: ./backends
+    build: ./backend
     command: bash -c "rm -f /rails/tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0' -p 3001"
     ports:
       - "3001:3001"
@@ -22,7 +22,7 @@ services:
       DATABASE_NAME: backend_development
       RAILS_ENV: development
     volumes:
-      - "./backends:/rails"
+      - "./backend:/rails"
     depends_on:
       - db
 
@@ -39,7 +39,7 @@ services:
 
   test:
     build:
-      context: ./backends
+      context: ./backend
     command: bundle exec rspec
     environment:
       DATABASE_HOST: db
@@ -48,7 +48,7 @@ services:
       DATABASE_NAME: backend_test
       RAILS_ENV: test
     volumes:
-      - ./backends:/rails
+      - ./backend:/rails
     depends_on:
       - db
 

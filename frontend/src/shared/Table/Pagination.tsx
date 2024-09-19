@@ -1,6 +1,6 @@
 import React from 'react';
 import { Flex, Button } from '@chakra-ui/react';
-import { usePagination } from '@ajna/pagination/dist'
+import { usePagination } from '@ajna/pagination'
 
 interface PaginationProps {
   total: number;
