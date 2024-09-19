@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table as ChakraTable, Thead, Tbody, Tr, Th, Td, Stack, Skeleton, Flex, Text, Button, Tooltip, Icon, Box, Divider } from '@chakra-ui/react';
+import { Table as ChakraTable, Thead, Tbody, Tr, Th, Td, Stack, Skeleton, Flex, Text, Button, Tooltip, Divider } from '@chakra-ui/react';
 
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons'
 

@@ -8,5 +8,10 @@ export default defineConfig({
     port: 4200,
     host: '0.0.0.0'
   },
+  resolve: {
+    alias: {
+      '@ajna/pagination': '/node_modules/@ajna/pagination'
+    }
+  }
 
 })

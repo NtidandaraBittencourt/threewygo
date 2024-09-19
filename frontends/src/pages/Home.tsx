@@ -1,28 +1,29 @@
 import React, { useState } from 'react';
 import { Box, useToast   } from '@chakra-ui/react';
 import { TableWithActions } from '../shared/Table/TableWithActions';
-import { DateRangeFilter } from '../shared/Table/DataRangeFilter';
 import { DynamicFormDrawer } from '../shared/Form/DynamicFormDrawer';
 import { fetchCourses, submitCourse, deleteCourse  } from '../services/api'
 import { useQuery } from '@tanstack/react-query';
+import Pagination from '../shared/Table/Pagination';
+import { Course } from '../Types/Course';
+
 
 const Home = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState<any>(null);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
-  const [search, setSearch] = useState();
-  const [page, setPage] = useState(5)
-  const [rowsPerPage, setRowsPerPage] = useState('')
+  const [page, setPage] = useState(1)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
 
-  const { data, error, isLoading, refetch } = useQuery({
-		queryKey: ['courses', search, page, rowsPerPage],
-		queryFn: () => fetchCourses(search, page, rowsPerPage),
+  const { data, error, isLoading, refetch } = useQuery<{ courses: Course[], total: number }>({
+		queryKey: ['courses',  page, rowsPerPage],
+		queryFn: () => fetchCourses( page, rowsPerPage),
 	});
 
-  const handleOpenDrawer = (course: any) => {
-    const courseUpload = data?.find((item: any) => item.id === course);
+  const handleOpenDrawer = (courseId: number) => {
+    const courseUpload = data?.courses?.find((item: Course) => item.id === courseId);
     if (courseUpload) {
       setSelectedCourse(courseUpload);
       setDrawerOpen(true);
@@ -37,7 +38,7 @@ const Home = () => {
     setSelectedCourse(null);
   };
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: Course) => {
     setLoading(true);
     try {
       await submitCourse(values);
@@ -54,7 +55,7 @@ const Home = () => {
     } catch (error) {
       setLoading(false);
       toast({
-        title: 'Erro ao salvar o curso.',
+        title: `Erro ao salvar o curso.${error}`,
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -92,25 +93,25 @@ const Home = () => {
     { name: 'Descrição', key: 'description' },
   ];
 
-  const onFilter = () => {
-    console.log('filtra')
-  }
-
   return (
     <Box>
-      <DateRangeFilter onFilter={function (startDate: string, endDate: string): void {
-        throw new Error('Function not implemented.');
-      } }/>
-
       <TableWithActions
         isLoading={isLoading}
         error={error || null}
-        items={data || []}
+        items={data?.courses || []}
         columns={columns}
-        title="Courses"
+        title="Cursos"
         onEdit={handleOpenDrawer}
         onDelete={handleDelete}
       />
+
+      <Pagination
+        total={data?.total || 0}
+        currentPage={page}
+        pageSize={rowsPerPage}
+        onPageChange={(newPage) => setPage(newPage)}
+      />
+
       <DynamicFormDrawer
         isOpen={isDrawerOpen}
         onClose={handleCloseDrawer}
