@@ -1,10 +1,11 @@
 import React from 'react';
 import { VStack, HStack, Button, FormControl, FormLabel, Input, FormErrorMessage } from '@chakra-ui/react';
 import { Field } from 'formik';
+import { Video } from '../../Types/Video';
 
 interface VideoFormProps {
-  videos: any[];
-  push: (value: any) => void;
+  videos: Video[];
+  push: (value: Video) => void;
   remove: (index: number) => void;
   errors: any;
   touched: any;

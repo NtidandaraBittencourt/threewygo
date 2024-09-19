@@ -40,8 +40,16 @@ const Home = () => {
 
   const handleSubmit = async (values: Course) => {
     setLoading(true);
+    
+    const formattedValues = {
+      ...values,
+      videos_attributes: values.videos,
+    };
+
+    delete (formattedValues as any).videos;
+    
     try {
-      await submitCourse(values);
+      await submitCourse(formattedValues);
       setLoading(false);
       handleCloseDrawer();
 

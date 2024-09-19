@@ -3,10 +3,11 @@ import { Formik, Field, FieldArray } from 'formik';
 import { VStack, FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
 import VideoForm from './VideoForm';
 import { courseValidationSchema } from '../../helpers/validationSchema';
+import { Course } from '../../Types/Course';
 
 interface CourseFormProps {
-  initialValues: any;
-  onSubmit: (values: any) => void;
+  initialValues: Course;
+  onSubmit: (values: Course) => void;
 }
 
 const CourseForm: React.FC<CourseFormProps> = ({ initialValues, onSubmit }) => {
